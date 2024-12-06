@@ -118,19 +118,6 @@ public class Day2
         return diffs;
     }
 
-    // public List<int> GetDiffs(int[] arr)
-    // {
-    //     var len = arr.Length;
-    //     var diffs = new List<int>();
-
-    //     for (int i = 0; i < len - 1; i++)
-    //     {
-    //         diffs.Add(arr[i + 1] - arr[i]);
-    //     }
-
-    //     return diffs;
-    // }
-
     public int[] GetValues(string line)
     {
         return line
