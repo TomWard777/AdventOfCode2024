@@ -65,7 +65,7 @@ public class Day3
 
         var parts = input.Split("don't()", StringSplitOptions.None);
 
-        activeParts.Add(parts[0]);
+        ///activeParts.Add(parts[0]);
 
         // if(input.IndexOf("don't()") == 0)
         // {

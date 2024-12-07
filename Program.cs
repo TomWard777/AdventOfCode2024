@@ -1,10 +1,19 @@
-﻿namespace AdventOfCode2023;
+﻿using System.Diagnostics;
+
+namespace AdventOfCode2023;
 
 class Program
 {
     static void Main()
     {
-        var day = new Day3();        
+        var timer = new Stopwatch();
+        timer.Start();
+
+        var day = new Day7Part2();
         day.Run();
+
+        timer.Stop();
+
+        Console.WriteLine("Time taken: " + timer.Elapsed.ToString(@"m\:ss\.fff"));
     }
 }

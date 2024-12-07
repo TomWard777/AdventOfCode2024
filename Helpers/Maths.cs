@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace AdventOfCode2023;
 
 public static class Maths
@@ -42,7 +44,7 @@ public static class Maths
         return a;
     }
 
-        public static long Product(IEnumerable<long> numbers)
+    public static long Product(IEnumerable<long> numbers)
     {
         return numbers.Aggregate((long)1, (acc, val) => acc * val);
     }
@@ -103,5 +105,38 @@ public static class Maths
             result *= number;
         }
         return result;
+    }
+
+    public static string GetBaseBString(int n, int b)
+    {
+        var k = 0;
+
+        while (IntPower(b, k) < n-1)
+        {
+            k++;
+        }
+
+        var str = new StringBuilder();
+
+        for (int i = k; i >= 0; i--)
+        {
+            str.Append(GetBaseBDigit(n, i, b));
+        }
+
+        return str.ToString().TrimStart('0');
+    }
+
+    public static int GetBaseBDigit(int n, int k, int b)
+    {
+        n = n % IntPower(b, k + 1);
+
+        if (k == 0)
+        {
+            return n;
+        }
+        else
+        {
+            return n / IntPower(b, k);
+        }
     }
 }
