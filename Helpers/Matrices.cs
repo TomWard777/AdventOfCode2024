@@ -60,6 +60,40 @@ public static class Matrices
         .ToArray();
     }
 
+    public static char[] GetRow(int rowNumber, int n, char[][] mat)
+    {
+        var list = new List<char>();
+
+        for (int j = 0; j < n; j++)
+        {
+            list.Add(mat[rowNumber][j]);
+        }
+
+        return list.ToArray();
+    }
+
+    public static char[] GetColumn(int colNumber, int m, char[][] mat)
+    {
+        var list = new List<char>();
+
+        for (int i = 0; i < m; i++)
+        {
+            list.Add(mat[i][colNumber]);
+        }
+
+        return list.ToArray();
+    }
+
+    public static bool IsPointOutsideMatrix((int, int) ij, int m, int n)
+    {
+        return IsPointOutsideMatrix(ij.Item1, ij.Item2, m, n);
+    }
+
+    public static bool IsPointOutsideMatrix(int i, int j, int m, int n)
+    {
+        return i < 0 || j < 0 || i >= m || j >= n;
+    }
+
     public static void Draw(Matrix mat)
     {
         for (int i = 0; i < mat.RowCount; i++)
@@ -82,6 +116,7 @@ public static class Matrices
             }
             Console.Write("\n");
         }
+        Console.WriteLine();
     }
 
     public static void DrawSubset(int m, int n, IEnumerable<(int, int)> set, char[][] mat)
