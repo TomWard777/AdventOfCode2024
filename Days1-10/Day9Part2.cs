@@ -1,5 +1,4 @@
 using System.Text;
-
 namespace AdventOfCode2023;
 
 public class Day9Part2
@@ -23,61 +22,125 @@ public class Day9Part2
         var input = inputList.First();
         //var input = "2333133121414131402";
 
-        var arr = ConvertInputToBigArray(input);
+        var pairs = ConvertInputToPairs(input);
 
-        //DrawFileArray(arr);
+        //DrawFileArray(pairs);
+        RunCompression(ref pairs);
+        DrawFileArray(pairs);
 
-        RunCompression(ref arr);
-
-        //DrawFileArray(arr);
-
-        Console.WriteLine("RESULT = " + GetChecksumValue(arr));
+        Console.WriteLine("RESULT = " + GetChecksumValue(pairs));
     }
 
-    public long GetChecksumValue(long[] arr)
+    public long GetChecksumValue((int, int)[] pairs)
     {
+        var ind = 0;
         long total = 0;
 
-        for (int i = 0; i < arr.Length; i++)
+        foreach (var pair in pairs)
         {
-            var val = arr[i] > -1 ? arr[i] : 0;
-            total += val * i;
+            for (int i = 0; i < pair.Item2; i++)
+            {
+                total += pair.Item1 > -1 ? (long)pair.Item1 * ind : 0;
+                ind++;
+            }
+
         }
 
         return total;
     }
 
-    public void RunCompression(ref long[] arr)
-    {
-        var hasChanged = true;
 
-        while (hasChanged)
+
+    public void RunCompression(ref (int, int)[] pairs)
+    {
+        var highestId = pairs.Select(p => p.Item1).Max();
+
+        for (int i = highestId; i > 0; i--)
         {
-            hasChanged = RunCompressionStep(ref arr);
+            RunCompressionStep(ref pairs, i);
+
+            // For test example only
+            //DrawFileArray(pairs);
         }
     }
 
-    public bool RunCompressionStep(ref long[] arr)
+    public void RunCompressionStep(ref (int, int)[] pairs, int id)
     {
-        var firstSpaceIndex = Array.IndexOf(arr, -1);
+        var index = Array.FindIndex(pairs, p => p.Item1 == id);
 
-        var k = arr.Length - 1;
-
-        while (arr[k] == -1)
+        if (index == -1)
         {
-            k--;
+            throw new Exception($"ID {id} not found");
         }
 
-        if (k + 1 == firstSpaceIndex)
+        var pairToMove = pairs[index];
+        var destinationIndex = Array.FindIndex(pairs, p => p.Item1 == -1 && p.Item2 >= pairToMove.Item2);
+
+        if (destinationIndex > -1 && destinationIndex < index)
         {
-            return false;
+            var emptySpace = pairs[destinationIndex].Item2;
+
+            pairs[destinationIndex] = pairToMove;
+            pairs[index] = (-1, pairToMove.Item2);
+
+            var spaceLeft = emptySpace - pairToMove.Item2;
+
+            if (spaceLeft > 0)
+            {
+                pairs = InsertIntoArray<(int, int)>(pairs, (-1, spaceLeft), destinationIndex + 1);
+            }
+
+            CollectSpaces(ref pairs);
         }
-        else
+    }
+
+    public void CollectSpaces(ref (int, int)[] pairs)
+    {
+        for (int i = 0; i < pairs.Length - 1; i++)
         {
-            arr[firstSpaceIndex] = arr[k];
-            arr[k] = -1;
-            return true;
+            if (pairs[i].Item1 == -1 && pairs[i + 1].Item1 == -1 &&
+                pairs[i].Item2 > 0 && pairs[i + 1].Item2 > 0)
+            {
+                pairs[i] = (-1, pairs[i].Item2 + pairs[i + 1].Item2);
+                pairs[i + 1] = (-1, 0);
+            }
         }
+    }
+
+    public T[] InsertIntoArray<T>(T[] arr, T newEntry, int index)
+    {
+        var result = new T[arr.Length + 1];
+
+        for (int i = 0; i < index; i++)
+        {
+            result[i] = arr[i];
+        }
+
+        result[index] = newEntry;
+
+        for (int i = index; i < arr.Length; i++)
+        {
+            result[i + 1] = arr[i];
+        }
+
+        return result;
+    }
+
+    public T[] ConcatArrays<T>(T[] arr1, T[] arr2)
+    {
+        var result = new T[arr1.Length + arr2.Length];
+
+        for (int i = 0; i < arr1.Length; i++)
+        {
+            result[i] = arr1[i];
+        }
+
+        for (int i = 0; i < arr2.Length; i++)
+        {
+            result[i + arr1.Length] = arr2[i];
+        }
+
+        return result;
     }
 
     public (int, int)[] ConvertInputToPairs(string input)
@@ -99,7 +162,7 @@ public class Day9Part2
         return list.ToArray();
     }
 
-    public string DrawFileArray((int, int)[] pairs)
+    public void DrawFileArray((int, int)[] pairs)
     {
         // This function is just for the test case.
         var sb = new StringBuilder();
@@ -119,7 +182,7 @@ public class Day9Part2
             }
         }
 
-        return sb.ToString();
+        Console.WriteLine(sb.ToString());
     }
 
     private Dictionary<char, int> GetCharToIntDictionary()

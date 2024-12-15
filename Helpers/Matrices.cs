@@ -119,6 +119,29 @@ public static class Matrices
         Console.WriteLine();
     }
 
+    public static (int, int) GetUniqueCharacterPosition(char[][] mat, char ch)
+    {
+        var i = 0;
+
+        foreach (var row in mat)
+        {
+            if (row.Contains(ch))
+            {
+                break;
+            }
+
+            i++;
+        }
+
+        for (int j = 0; ; j++)
+        {
+            if (mat[i][j] == ch)
+            {
+                return (i, j);
+            }
+        }
+    }
+
     public static void DrawSubset(int m, int n, IEnumerable<(int, int)> set, char[][] mat)
     {
         for (int i = 0; i < m; i++)
