@@ -1,5 +1,5 @@
 
-namespace AdventOfCode2023;
+namespace AdventOfCode2024;
 
 public class Day7Part2
 {

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace AdventOfCode2023;
+namespace AdventOfCode2024;
 
 class Program
 {
@@ -9,7 +9,7 @@ class Program
         var timer = new Stopwatch();
         timer.Start();
 
-        var day = new Day8();
+        var day = new Day17();
 
         day.Run();
 
