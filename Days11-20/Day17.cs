@@ -2,16 +2,17 @@ namespace AdventOfCode2024;
 
 public class Day17
 {
+    ////306300000
     public void Run()
     {
         var prog = new int[] { 2, 4, 1, 1, 7, 5, 0, 3, 1, 4, 4, 0, 5, 5, 3, 0 };
         var testProg = new int[] { 0, 3, 5, 4, 3, 0 };
 
-        var n = 14770000;
+        long n = 88800000;
 
-        while (n < 2147483647)
+        while (n < 1000000000000000000)
         {
-            var comp = new Computer(n, 0, 0, prog);
+            var comp = new Computer(n, prog);
             comp.RunProgram();
 
             if (comp.IsOutputEqualToProgram())
@@ -33,22 +34,22 @@ public class Day17
 
 public class Computer
 {
-    public Computer(int a, int b, int c, int[] program)
+    public Computer(long a, int[] program)
     {
         A = a;
-        B = b;
-        C = c;
+        B = 0;
+        C = 0;
         Program = program;
         Pointer = 0;
-        Output = new List<int>();
+        Output = new List<long>();
     }
 
-    public int A { get; set; }
-    public int B { get; set; }
-    public int C { get; set; }
+    public long A { get; set; }
+    public long B { get; set; }
+    public long C { get; set; }
     public int[] Program { get; set; }
     public int Pointer { get; set; }
-    public List<int> Output { get; set; }
+    public List<long> Output { get; set; }
 
     public void RunProgram()
     {
@@ -132,7 +133,7 @@ public class Computer
         return string.Join(',', Output);
     }
 
-    public int GetComboOperandValue(int operand)
+    public long GetComboOperandValue(int operand)
     {
         if (operand > -1 && operand < 4)
         {
@@ -155,21 +156,21 @@ public class Computer
     public void Adv(int operand)
     {
         var n = GetComboOperandValue(operand);
-        var denom = Maths.IntPower(2, n);
+        var denom = Maths.LongPower(2, n);
         A = A / denom;
     }
 
     public void Bdv(int operand)
     {
         var n = GetComboOperandValue(operand);
-        var denom = Maths.IntPower(2, n);
+        var denom = Maths.LongPower(2, n);
         B = A / denom;
     }
 
     public void Cdv(int operand)
     {
         var n = GetComboOperandValue(operand);
-        var denom = Maths.IntPower(2, n);
+        var denom = Maths.LongPower(2, n);
         C = A / denom;
     }
 

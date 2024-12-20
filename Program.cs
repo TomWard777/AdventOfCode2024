@@ -9,7 +9,7 @@ class Program
         var timer = new Stopwatch();
         timer.Start();
 
-        var day = new Day17();
+        var day = new Day16();
 
         day.Run();
 

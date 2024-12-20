@@ -107,11 +107,21 @@ public static class Maths
         return result;
     }
 
+    public static long LongPower(long number, long exponent)
+    {
+        var result = (long)1;
+        for (int i = 0; i < exponent; i++)
+        {
+            result *= number;
+        }
+        return result;
+    }
+
     public static string GetBaseBString(int n, int b)
     {
         var k = 0;
 
-        while (IntPower(b, k) < n-1)
+        while (IntPower(b, k) < n - 1)
         {
             k++;
         }
