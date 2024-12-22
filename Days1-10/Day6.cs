@@ -41,7 +41,7 @@ public class Day6
     public (int, int) GetNextStep(Guard guard)
     {
         var (i, j) = guard.Postion;
-        var (i2, j2) = GetPointInFront(i, j, guard.Direction);
+        var (i2, j2) = Matrices.GetPointInFront(i, j, guard.Direction);
 
         if (Matrices.IsPointOutsideMatrix(i2, j2, _m, _n))
         {
@@ -51,7 +51,7 @@ public class Day6
         while (_mat[i2][j2] == '#')
         {
             guard.Direction = TurnRight(guard.Direction);
-            (i2, j2) = GetPointInFront(i, j, guard.Direction);
+            (i2, j2) = Matrices.GetPointInFront(i, j, guard.Direction);
 
             if (Matrices.IsPointOutsideMatrix(i2, j2, _m, _n))
             {
@@ -85,18 +85,6 @@ public class Day6
         }
     }
 
-    public (int, int) GetPointInFront(int i, int j, Facing facing)
-    {
-        return facing switch
-        {
-            Facing.Up => (i - 1, j),
-            Facing.Down => (i + 1, j),
-            Facing.Left => (i, j - 1),
-            Facing.Right => (i, j + 1),
-            _ => throw new NotSupportedException()
-        };
-    }
-
     public Facing TurnRight(Facing facing)
     {
         return facing switch
@@ -114,12 +102,4 @@ public class Guard
 {
     public (int, int) Postion { get; set; }
     public Facing Direction { get; set; }
-}
-
-public enum Facing
-{
-    Up,
-    Down,
-    Left,
-    Right
 }

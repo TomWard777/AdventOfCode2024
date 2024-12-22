@@ -2,6 +2,24 @@ namespace AdventOfCode2024;
 
 public static class StringHelper
 {
+    public static IEnumerable<string> ReadMultilineString(string input)
+    {
+        using (StringReader reader = new StringReader(input))
+        {
+            string line = string.Empty;
+            do
+            {
+                line = reader.ReadLine();
+
+                if (line != null)
+                {
+                    yield return line;
+                }
+
+            } while (line != null);
+        }
+    }
+
     public static string[] CartesianPower(IEnumerable<string> arr, int n)
     {
         var result = new string[] { string.Empty };

@@ -1,3 +1,5 @@
+using Microsoft.VisualBasic;
+
 namespace AdventOfCode2024;
 
 public static class Matrices
@@ -142,7 +144,7 @@ public static class Matrices
         }
     }
 
-    public static void DrawSubset(int m, int n, IEnumerable<(int, int)> set, char[][] mat)
+    public static void DrawSubset(int m, int n, char[][] mat, IEnumerable<(int, int)> set, char fillerChar = ' ')
     {
         for (int i = 0; i < m; i++)
         {
@@ -154,10 +156,27 @@ public static class Matrices
                 }
                 else
                 {
-                    Console.Write(' ');
+                    Console.Write(fillerChar);
                 }
             }
             Console.Write("\n");
         }
+    }
+
+    public static (int, int) GetPointInFront((int, int) pair, Facing facing)
+    {
+        return GetPointInFront(pair.Item1, pair.Item2, facing);
+    }
+
+    public static (int, int) GetPointInFront(int i, int j, Facing facing)
+    {
+        return facing switch
+        {
+            Facing.Up => (i - 1, j),
+            Facing.Down => (i + 1, j),
+            Facing.Left => (i, j - 1),
+            Facing.Right => (i, j + 1),
+            _ => throw new NotSupportedException()
+        };
     }
 }
