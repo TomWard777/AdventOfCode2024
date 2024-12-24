@@ -2,13 +2,13 @@ namespace AdventOfCode2024;
 
 public class Day22
 {
-    // 1424 too low
+    // 1923 too low
     public void Run()
     {
         var input = FileParser.ReadInputFromFile("Day22.txt").Select(n => long.Parse(n)).ToArray();
         //var input = GetTestInputPart2();
 
-        var arr = GetConsecutiveIntegers(5);
+        var arr = GetConsecutiveIntegers(3);
         var diffsArray = ArrayHelper.CartesianProductArray(arr, arr, arr, arr);
 
         var prices = new List<int>();
@@ -21,7 +21,7 @@ public class Day22
             prices.Add(p);
 
             ct--;
-            if (ct % 1000 == 0)
+            if (ct % 100 == 0)
             {
                 Console.Write(ct + ", ");
             }
